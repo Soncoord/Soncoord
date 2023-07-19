@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Soncoord.Bot;
+using Soncoord.Infrastructure.Configuration;
 using Soncoord.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,9 @@ builder.Services.AddVersionedApiExplorer(setup =>
 });
 
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+
+builder.Services.Configure<AppSettings>(
+    builder.Configuration.GetSection(AppSettings.Providers));
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

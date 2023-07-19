@@ -1,14 +1,19 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Soncoord.Infrastructure.Configuration;
 
 namespace Soncoord.Bot
 {
     public class Bot : IBot
     {
         private readonly ILogger<Bot> _logger;
+        private readonly AppSettings _options;
 
-        public Bot(ILogger<Bot> logger)
+        public Bot(ILogger<Bot> logger, IOptions<AppSettings> options)
         {
             _logger = logger;
+            _options = options.Value;
         }
 
         public void Send()
