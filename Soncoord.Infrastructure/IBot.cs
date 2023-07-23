@@ -1,4 +1,4 @@
-﻿namespace Soncoord.Bot
+﻿namespace Soncoord.Infrastructure
 {
     public interface IBot
     {

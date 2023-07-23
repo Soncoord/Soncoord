@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Soncoord.Bot\Soncoord.Bot.csproj" />
+    <ProjectReference Include="..\Soncoord.Business\Soncoord.Business.csproj" />
     <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj" />
   </ItemGroup>
 

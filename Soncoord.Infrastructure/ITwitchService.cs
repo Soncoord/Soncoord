@@ -1,6 +1,6 @@
 ﻿using Soncoord.Infrastructure.Auth;
 
-namespace Soncoord.Bot.Services
+namespace Soncoord.Infrastructure
 {
     public interface ITwitchService
     {

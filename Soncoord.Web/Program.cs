@@ -2,13 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Soncoord.Bot;
-using Soncoord.Bot.Services;
+using Soncoord.Business.Services.Database;
+using Soncoord.Business.Services.Twitch;
+using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
 using Soncoord.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IBot, Bot>();
+builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddHttpClient<ITwitchService, TwitchService>();
 
 builder.Services.AddControllers();
@@ -34,9 +37,7 @@ builder.Services.AddVersionedApiExplorer(setup =>
 });
 
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
-
-builder.Services.Configure<AppSettings>(
-    builder.Configuration.GetSection(AppSettings.Providers));
+builder.Services.Configure<AppSettings>(builder.Configuration);
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Soncoord.Bot.Services;
+using Soncoord.Business.Services.Database;
+using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
 
 namespace Soncoord.Web.Controllers
@@ -8,8 +9,19 @@ namespace Soncoord.Web.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        // WIP - Just a test endpoint
         [ApiVersion("1.0")]
-        [Route("api/v{version:apiVersion}/[controller]/bot/twitch")]
+        [Route("api/v{version:apiVersion}/db")]
+        [HttpGet]
+        public async Task<IActionResult> Test(DatabaseService service)
+        {
+            var temp = await service.GetData();
+            Console.WriteLine(temp);
+            return null;
+        }
+
+        [ApiVersion("1.0")]
+        [Route("api/v{version:apiVersion}/auth/bot/twitch")]
         [HttpGet]
         public IActionResult Authorize(ITwitchService twitchService)
         {
@@ -17,7 +29,7 @@ namespace Soncoord.Web.Controllers
         }
 
         [ApiVersion("1.0")]
-        [Route("api/v{version:apiVersion}/[controller]/bot/twitch/callback")]
+        [Route("api/v{version:apiVersion}/auth/bot/twitch/callback")]
         [HttpGet]
         public async Task<IActionResult> GetCode(
             [FromQuery] string? code,
@@ -27,7 +39,7 @@ namespace Soncoord.Web.Controllers
             ITwitchService twitchService,
             IOptions<AppSettings> options)
         {
-            if (state != options.Value.Twitch.State)
+            if (state != options.Value.Providers.Twitch.State)
             {
                 return BadRequest();
             }
