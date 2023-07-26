@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Soncoord.Business.Services.Database;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
+using Soncoord.Infrastructure.Database;
 
 namespace Soncoord.Web.Controllers
 {
@@ -13,11 +13,9 @@ namespace Soncoord.Web.Controllers
         [ApiVersion("1.0")]
         [Route("api/v{version:apiVersion}/db")]
         [HttpGet]
-        public async Task<IActionResult> Test(DatabaseService service)
+        public async Task<ActionResult<IEnumerable<Test>>> Test(IDatabaseService service)
         {
-            var temp = await service.GetData();
-            Console.WriteLine(temp);
-            return null;
+            return await service.GetData();
         }
 
         [ApiVersion("1.0")]
@@ -39,6 +37,7 @@ namespace Soncoord.Web.Controllers
             ITwitchService twitchService,
             IOptions<AppSettings> options)
         {
+            // Get State
             if (state != options.Value.Providers.Twitch.State)
             {
                 return BadRequest();
@@ -50,8 +49,23 @@ namespace Soncoord.Web.Controllers
             }
 
             if (!string.IsNullOrEmpty(code))
-            { 
-                return Ok(await twitchService.GetTokenAsync(code));
+            {
+                var result = await twitchService.GetTokenAsync(code);
+                if (result is null)
+                {
+                    return BadRequest();
+                }
+                
+                var validateResult = await twitchService.ValidateAsync(result.AccessToken);
+                if (validateResult?.Status is null)
+                {
+                    // Save Data
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(validateResult);
+                }
             }
 
             return BadRequest();

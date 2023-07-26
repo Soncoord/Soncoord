@@ -5,6 +5,7 @@ namespace Soncoord.Infrastructure
     public interface ITwitchService
     {
         string Authorize();
-        Task<TwitchResponse?> GetTokenAsync(string code);
+        Task<IAuthResponse?> GetTokenAsync(string code);
+        Task<IValidateResponse?> ValidateAsync(string? token);
     }
 }

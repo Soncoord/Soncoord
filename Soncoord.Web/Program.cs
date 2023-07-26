@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Soncoord.Bot;
-using Soncoord.Business.Services.Database;
-using Soncoord.Business.Services.Twitch;
+using Soncoord.Business;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
 using Soncoord.Web;
@@ -11,8 +10,7 @@ using Soncoord.Web;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IBot, Bot>();
-builder.Services.AddSingleton<DatabaseService>();
-builder.Services.AddHttpClient<ITwitchService, TwitchService>();
+builder.Services.AddSoncoordBusinessServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

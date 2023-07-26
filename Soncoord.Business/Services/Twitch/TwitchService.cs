@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Auth;
 using Soncoord.Infrastructure.Configuration;
+using System.Net.Http.Headers;
 using System.Web;
 
 namespace Soncoord.Business.Services.Twitch
@@ -20,6 +21,7 @@ namespace Soncoord.Business.Services.Twitch
 
         public string Authorize()
         {
+            // Create Guid and save it
             _options.Providers.Twitch.State = Guid.NewGuid().ToString();
 
             var queries = HttpUtility.ParseQueryString(string.Empty);
@@ -33,7 +35,7 @@ namespace Soncoord.Business.Services.Twitch
             return $"{_options.Providers.Twitch.Endpoints.Authorize}?{queries}";
         }
 
-        public async Task<TwitchResponse?> GetTokenAsync(string code)
+        public async Task<IAuthResponse?> GetTokenAsync(string code)
         {
             var queries = HttpUtility.ParseQueryString(string.Empty);
             queries.Add("grant_type", "authorization_code");
@@ -48,8 +50,26 @@ namespace Soncoord.Business.Services.Twitch
 
             if (result.IsSuccessStatusCode)
             {
+                //ToDo Remove State info
                 _options.Providers.Twitch.State = string.Empty;
-                return JsonConvert.DeserializeObject<TwitchResponse>(await result.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<AuthResponse>(await result.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
+
+        public async Task<IValidateResponse?> ValidateAsync(string? token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                //token = Get Token
+            }
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await _httpClient.GetAsync($"{_options.Providers.Twitch.Endpoints.Validate}");
+            if (result.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ValidateResponse>(await result.Content.ReadAsStringAsync());
             }
 
             return null;

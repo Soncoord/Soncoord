@@ -1,10 +1,10 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
+using Soncoord.Infrastructure.Database;
 
 namespace Soncoord.Infrastructure
 {
     public interface IDatabaseService
     {
-        IMongoCollection<BsonDocument> GetData();
+        Task<List<Test>> GetData();
     }
 }
