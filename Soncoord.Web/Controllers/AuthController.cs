@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Soncoord.Infrastructure;
-using Soncoord.Infrastructure.Configuration;
 using Soncoord.Infrastructure.Database;
 
 namespace Soncoord.Web.Controllers
@@ -21,9 +19,9 @@ namespace Soncoord.Web.Controllers
         [ApiVersion("1.0")]
         [Route("api/v{version:apiVersion}/auth/bot/twitch")]
         [HttpGet]
-        public IActionResult Authorize(ITwitchService twitchService)
+        public async Task<IActionResult> Authorize(ITwitchService twitchService)
         {
-            return Redirect(twitchService.Authorize());
+            return Redirect(await twitchService.Authorize());
         }
 
         [ApiVersion("1.0")]
@@ -35,17 +33,22 @@ namespace Soncoord.Web.Controllers
             [FromQuery] string? error,
             [FromQuery] string? errorDescription,
             ITwitchService twitchService,
-            IOptions<AppSettings> options)
+            IDatabaseService database)
         {
-            // Get State
-            if (state != options.Value.Providers.Twitch.State)
+            if (!string.IsNullOrEmpty(error))
+            {
+                return BadRequest(errorDescription);
+            }
+
+            if (string.IsNullOrEmpty(state))
             {
                 return BadRequest();
             }
 
-            if (!string.IsNullOrEmpty(error))
+            var login = await database.GetLoginAsync(state);
+            if (state != login.State)
             {
-                return BadRequest(errorDescription);
+                return BadRequest();
             }
 
             if (!string.IsNullOrEmpty(code))

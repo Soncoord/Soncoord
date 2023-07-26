@@ -4,7 +4,7 @@ namespace Soncoord.Infrastructure
 {
     public interface ITwitchService
     {
-        string Authorize();
+        Task<string> Authorize();
         Task<IAuthResponse?> GetTokenAsync(string code);
         Task<IValidateResponse?> ValidateAsync(string? token);
     }

@@ -6,7 +6,7 @@ using Soncoord.Infrastructure.Database;
 
 namespace Soncoord.Business.Services.Database
 {
-    public class DatabaseService : IDatabaseService
+    internal class DatabaseService : IDatabaseService
     {
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
@@ -19,7 +19,32 @@ namespace Soncoord.Business.Services.Database
 
         public async Task<List<Test>> GetData()
         {
-            return await _database.GetCollection<Test>("test").Find(Builders<Test>.Filter.Empty).ToListAsync();
+            return await _database
+                .GetCollection<Test>("test")
+                .Find(Builders<Test>.Filter.Empty)
+                .ToListAsync();
+        }
+
+        public async Task AddLoginAsync(Login login)
+        {
+            await _database
+                .GetCollection<Login>("logins")
+                .InsertOneAsync(login);
+        }
+
+        public async Task<Login> GetLoginAsync(string state)
+        {
+            return await _database
+                .GetCollection<Login>("logins")
+                .Find(Builders<Login>.Filter.Eq(x => x.State, state))
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<DeleteResult> DeleteLoginAsync(string state)
+        {
+            return await _database
+                .GetCollection<Login>("logins")
+                .DeleteOneAsync(Builders<Login>.Filter.Eq(x => x.State, state));
         }
     }
 }
