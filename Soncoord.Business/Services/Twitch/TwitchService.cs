@@ -78,5 +78,28 @@ namespace Soncoord.Business.Services.Twitch
 
             return null;
         }
+
+        public async Task<IRevokeResponse?> RevokeAsync(string? token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                //token = Get Token
+            }
+
+            var queries = HttpUtility.ParseQueryString(string.Empty);
+            queries.Add("client_id", _options.Providers.Twitch.ClientId);
+            queries.Add("token", token);
+
+            var result = await _httpClient.PostAsync(
+                $"{_options.Providers.Twitch.Endpoints.Revoke}?{queries}",
+                null);
+            
+            if(result.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<RevokeResponse>(await result.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
     }
 }
