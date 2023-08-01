@@ -2,8 +2,7 @@
 {
     public class AppSettings
     {
-        public const string Providers = "Providers";
-
-        public TwitchConfig Twitch { get; set; } = new TwitchConfig();
+        public string DbConnectionString { get; set; } = string.Empty;
+        public Providers Providers { get; set; } = new Providers();
     }
 }

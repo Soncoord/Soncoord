@@ -2,7 +2,7 @@
 
 namespace Soncoord.Infrastructure.Auth
 {
-    public class TwitchResponse : ITwitchResponse
+    public class AuthResponse : IAuthResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; } = string.Empty;

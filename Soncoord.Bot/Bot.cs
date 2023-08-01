@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
 
 namespace Soncoord.Bot
