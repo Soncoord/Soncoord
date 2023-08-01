@@ -59,7 +59,7 @@ namespace Soncoord.Web.Controllers
                     return BadRequest();
                 }
                 
-                var validateResult = await twitchService.ValidateAsync(result.AccessToken);
+                var validateResult = await twitchService.ValidateTokenAsync(result.AccessToken);
                 if (validateResult?.Status is null)
                 {
                     // Save Data

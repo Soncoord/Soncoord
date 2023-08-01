@@ -6,7 +6,8 @@ namespace Soncoord.Infrastructure
     {
         Task<string> Authorize();
         Task<IAuthResponse?> GetTokenAsync(string code);
-        Task<IValidateResponse?> ValidateAsync(string? token);
-        Task<IRevokeResponse?> RevokeAsync(string? token);
+        Task<IAuthResponse?> RefreshTokenAsync(string refreshToken);
+        Task<IValidateResponse?> ValidateTokenAsync(string? token);
+        Task<IRevokeResponse?> RevokeTokenAsync(string? token);
     }
 }

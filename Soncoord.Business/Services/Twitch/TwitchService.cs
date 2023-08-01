@@ -32,6 +32,7 @@ namespace Soncoord.Business.Services.Twitch
 
             var queries = HttpUtility.ParseQueryString(string.Empty);
             queries.Add("response_type", "code");
+            // TODo: Add scopes for chat
             queries.Add("scope", "user:read:email");
             queries.Add("client_id", _options.Providers.Twitch.ClientId);
             queries.Add("client_secret", _options.Providers.Twitch.ClientSecret);
@@ -62,7 +63,27 @@ namespace Soncoord.Business.Services.Twitch
             return null;
         }
 
-        public async Task<IValidateResponse?> ValidateAsync(string? token)
+        public async Task<IAuthResponse?> RefreshTokenAsync(string refreshToken)
+        {
+            var queries = HttpUtility.ParseQueryString(string.Empty);
+            queries.Add("grant_type", "refresh_token");
+            queries.Add("refresh_token", HttpUtility.UrlEncode(refreshToken));
+            queries.Add("client_id", _options.Providers.Twitch.ClientId);
+            queries.Add("client_secret", _options.Providers.Twitch.ClientSecret);
+
+            var result = await _httpClient.PostAsync(
+                $"{_options.Providers.Twitch.Endpoints.Token}?{queries}",
+                null);
+
+            if (result.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<AuthResponse>(await result.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
+
+        public async Task<IValidateResponse?> ValidateTokenAsync(string? token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -79,7 +100,7 @@ namespace Soncoord.Business.Services.Twitch
             return null;
         }
 
-        public async Task<IRevokeResponse?> RevokeAsync(string? token)
+        public async Task<IRevokeResponse?> RevokeTokenAsync(string? token)
         {
             if (string.IsNullOrEmpty(token))
             {
