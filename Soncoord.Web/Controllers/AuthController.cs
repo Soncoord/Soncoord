@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Configuration;
 using Soncoord.Infrastructure.Database;
 
 namespace Soncoord.Web.Controllers
@@ -7,15 +9,6 @@ namespace Soncoord.Web.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        // WIP - Just a test endpoint
-        [ApiVersion("1.0")]
-        [Route("api/v{version:apiVersion}/db")]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Test>>> Test(IDatabaseService service)
-        {
-            return await service.GetData();
-        }
-
         [ApiVersion("1.0")]
         [Route("api/v{version:apiVersion}/auth/bot/twitch")]
         [HttpGet]
@@ -33,7 +26,8 @@ namespace Soncoord.Web.Controllers
             [FromQuery] string? error,
             [FromQuery] string? errorDescription,
             ITwitchService twitchService,
-            IDatabaseService database)
+            IDatabaseService database,
+            IOptions<AppSettings> options)
         {
             if (!string.IsNullOrEmpty(error))
             {
@@ -53,16 +47,29 @@ namespace Soncoord.Web.Controllers
 
             if (!string.IsNullOrEmpty(code))
             {
-                var result = await twitchService.GetTokenAsync(code);
-                if (result is null)
+                var authResult = await twitchService.GetTokenAsync(code);
+                if (authResult is null)
                 {
                     return BadRequest();
                 }
                 
-                var validateResult = await twitchService.ValidateTokenAsync(result.AccessToken);
+                var validateResult = await twitchService.ValidateTokenAsync(authResult.AccessToken);
+
+                if (validateResult!.UserId != options.Value.Providers.Twitch.BotId)
+                {
+                    return BadRequest();
+                }
+
                 if (validateResult?.Status is null)
                 {
-                    // Save Data
+                    await database.SaveBotDataAsync(new Bots
+                    {
+                        Name = validateResult!.Login!,
+                        UserId = validateResult!.UserId!,
+                        AccessToken = authResult.AccessToken,
+                        RefreshToken = authResult.RefreshToken
+                    });
+
                     return Ok();
                 }
                 else
