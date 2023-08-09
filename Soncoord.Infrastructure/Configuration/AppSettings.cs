@@ -3,6 +3,6 @@
     public class AppSettings
     {
         public string DbConnectionString { get; set; } = string.Empty;
-        public Providers Providers { get; set; } = new Providers();
+        public ProvidersConfig Providers { get; set; } = new ProvidersConfig();
     }
 }

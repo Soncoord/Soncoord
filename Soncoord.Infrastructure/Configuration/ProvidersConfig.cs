@@ -1,6 +1,6 @@
 ﻿namespace Soncoord.Infrastructure.Configuration
 {
-    public class Providers
+    public class ProvidersConfig
     {
         public TwitchConfig Twitch { get; set; } = new TwitchConfig();
     }

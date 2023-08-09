@@ -6,7 +6,7 @@
         public string ClientSecret { get; set; } = string.Empty;
         public string BotId { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
-        public Endpoints Endpoints { get; set; } = new Endpoints();
-        public Callbacks Callbacks { get; set; } = new Callbacks();
+        public EndpointsConfig Endpoints { get; set; } = new EndpointsConfig();
+        public CallbacksConfig Callbacks { get; set; } = new CallbacksConfig();
     }
 }

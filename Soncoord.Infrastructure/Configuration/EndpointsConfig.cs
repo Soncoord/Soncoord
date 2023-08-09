@@ -1,6 +1,6 @@
 ﻿namespace Soncoord.Infrastructure.Configuration
 {
-    public class Endpoints
+    public class EndpointsConfig
     {
         public string Token { get; set; } = string.Empty;
         public string Authorize { get; set; } = string.Empty;

@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
-namespace Soncoord.Infrastructure.Database
+namespace Soncoord.Infrastructure.Db
 {
     public class Bots : IBots
     {
