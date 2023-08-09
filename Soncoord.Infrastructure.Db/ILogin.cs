@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace Soncoord.Infrastructure.Database
+namespace Soncoord.Infrastructure.Db
 {
     public interface ILogin
     {

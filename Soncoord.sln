@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soncoord.Web", "Soncoord.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soncoord.Infrastructure", "Soncoord.Infrastructure\Soncoord.Infrastructure.csproj", "{0E6C9EBA-88C9-4D1B-9218-632D11A470FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soncoord.Business", "Soncoord.Business\Soncoord.Business.csproj", "{313FC50A-16EC-4CAB-99C2-87BE5B1CDD3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soncoord.Business", "Soncoord.Business\Soncoord.Business.csproj", "{313FC50A-16EC-4CAB-99C2-87BE5B1CDD3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soncoord.Infrastructure.Db", "Soncoord.Infrastructure.Db\Soncoord.Infrastructure.Db.csproj", "{2FB75871-4CF0-4DDC-9E48-18139CC76038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{313FC50A-16EC-4CAB-99C2-87BE5B1CDD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{313FC50A-16EC-4CAB-99C2-87BE5B1CDD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{313FC50A-16EC-4CAB-99C2-87BE5B1CDD3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FB75871-4CF0-4DDC-9E48-18139CC76038}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FB75871-4CF0-4DDC-9E48-18139CC76038}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FB75871-4CF0-4DDC-9E48-18139CC76038}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FB75871-4CF0-4DDC-9E48-18139CC76038}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

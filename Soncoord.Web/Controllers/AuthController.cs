@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Configuration;
-using Soncoord.Infrastructure.Database;
+using Soncoord.Infrastructure.Db;
 
 namespace Soncoord.Web.Controllers
 {

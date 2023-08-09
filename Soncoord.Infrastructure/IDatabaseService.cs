@@ -1,5 +1,5 @@
 ﻿using MongoDB.Driver;
-using Soncoord.Infrastructure.Database;
+using Soncoord.Infrastructure.Db;
 
 namespace Soncoord.Infrastructure
 {

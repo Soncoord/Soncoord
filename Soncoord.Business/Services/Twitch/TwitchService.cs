@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Auth;
 using Soncoord.Infrastructure.Configuration;
-using Soncoord.Infrastructure.Database;
+using Soncoord.Infrastructure.Db;
 using System.Net.Http.Headers;
 using System.Web;
 

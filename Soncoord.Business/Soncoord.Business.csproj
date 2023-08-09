@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Soncoord.Infrastructure.Db\Soncoord.Infrastructure.Db.csproj" />
     <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj" />
   </ItemGroup>
 

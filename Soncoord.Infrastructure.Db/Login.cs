@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Soncoord.Infrastructure.Database
+namespace Soncoord.Infrastructure.Db
 {
     public class Login : ILogin
     {
